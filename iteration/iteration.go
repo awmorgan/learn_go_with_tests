@@ -1,9 +1,20 @@
 package iteration
 
+import "strings"
+
 func Repeat(ch string, count int) string {
-	var repeated string
+	// var repeated string
+	// for i := 0; i < count; i++ {
+	// 	repeated += ch
+	// }
+	// return repeated
+	var sb strings.Builder
+
 	for i := 0; i < count; i++ {
-		repeated += ch	
+		sb.WriteString(ch)
 	}
-	return repeated
+	return sb.String()
 }
+
+// func NewRepeat(ch string, count int) string {
+// }
