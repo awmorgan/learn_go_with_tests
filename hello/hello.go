@@ -7,6 +7,8 @@ const spanish = "Spanish"
 const spanishHelloPrefix = "Hola, "
 const french = "French"
 const frenchHelloPrefix = "Bonjour, "
+const emoji = "Emoji"
+const emojiHelloPrefix = "👋, "
 
 func Hello(name, lang string) string {
 	if name == "" {
@@ -17,6 +19,8 @@ func Hello(name, lang string) string {
 		return spanishHelloPrefix + name
 	case french:
 		return frenchHelloPrefix + name
+	case emoji:
+		return emojiHelloPrefix + name
 	default:
 		return englishHelloPrefix + name
 	}

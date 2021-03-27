@@ -33,4 +33,10 @@ func TestHello(t *testing.T)  {
 		assertCorrectMessage(t, got, want)
 	})
 
+	t.Run("in Emoji", func(t *testing.T) {
+		got := Hello("Bill", "Emoji")
+		want := "👋, Bill"
+		assertCorrectMessage(t, got, want)
+	})
+
 }
