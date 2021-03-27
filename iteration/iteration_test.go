@@ -19,19 +19,6 @@ func TestRepeat(t *testing.T) {
 	if repeated != expected {
 		t.Errorf("expected %q but got %q", expected, repeated)
 	}
-	// repeated = NewRepeat("a", 5)
-	// expected = "aaaaa"
-
-	// if repeated != expected {
-	// 	t.Errorf("expected %q but got %q", expected, repeated)
-	// }
-
-	// repeated = NewRepeat("a", 4)
-	// expected = "aaaa"
-
-	// if repeated != expected {
-	// 	t.Errorf("expected %q but got %q", expected, repeated)
-	// }
 }
 
 func BenchmarkRepeat(b *testing.B) {
@@ -39,11 +26,6 @@ func BenchmarkRepeat(b *testing.B) {
 		Repeat("a", 5)
 	}
 }
-// func BenchmarkNewRepeat(b *testing.B) {
-// 	for i := 0; i < b.N; i++ {
-// 		NewRepeat("a", 5)
-// 	}
-// }
 
 func ExampleRepeat() {
 	fmt.Println(Repeat("a", 3))
