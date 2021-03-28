@@ -16,5 +16,5 @@ func Countdown(w io.Writer) {
 		fmt.Fprintf(w, "%d\n", i)
 	}
 	const finalWord = "Go!"
-	fmt.Fprintf(w, "%s", finalWord)
+	fmt.Fprintf(w, "%s\n", finalWord)
 }
