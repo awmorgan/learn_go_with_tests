@@ -1,17 +1,21 @@
 package main
 
-import "errors"
-
 func main() {
 
 }
 
 type Dict map[string]string
 
-var (
-	ErrNotFound = errors.New("could not find the word")
-	ErrWordExists = errors.New("word already exists")
+type DictErr string
+
+const (
+	ErrNotFound   = DictErr("could not find the word")
+	ErrWordExists = DictErr("word already exists")
 )
+
+func (e DictErr) Error() string {
+	return string(e)
+}
 
 func (d Dict) Search(word string) (string, error) {
 	def, ok := d[word]
