@@ -47,7 +47,7 @@ func TestAdd(t *testing.T) {
 	t.Run("existing word", func(t *testing.T) {
 		w := "test"
 		def := "this is just a test"
-		d := Dict{w:def}
+		d := Dict{w: def}
 		err := d.Add(w, def)
 		assertErr(t, err, ErrWordExists)
 		assertDef(t, d, w, def)
@@ -58,5 +58,34 @@ func assertErr(t testing.TB, got, want error) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	t.Run("existing word", func(t *testing.T) {
+		w := "test"
+		def := "this is just a test"
+		d := Dict{w: def}
+		newDef := "new def"
+		err := d.Update(w, newDef)
+		assertErr(t, err, nil)
+		assertDef(t, d, w, newDef)
+	})
+	t.Run("new word", func(t *testing.T) {
+		w := "test"
+		def := "this is just a test"
+		d := Dict{}
+		err := d.Update(w, def)
+		assertErr(t, err, ErrWordDoesNotExist)
+	})
+}
+
+func TestDelete(t *testing.T) {
+	word := "test"
+	dict := Dict{word:"test definition"}
+	dict.Delete(word)
+	_, err := dict.Search(word)
+	if err != ErrNotFound {
+		t.Errorf("Expected %q to be deleted: %v", word, err )
 	}
 }

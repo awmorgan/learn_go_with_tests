@@ -9,8 +9,9 @@ type Dict map[string]string
 type DictErr string
 
 const (
-	ErrNotFound   = DictErr("could not find the word")
-	ErrWordExists = DictErr("word already exists")
+	ErrNotFound         = DictErr("could not find the word")
+	ErrWordExists       = DictErr("word already exists")
+	ErrWordDoesNotExist = DictErr("word does not exist")
 )
 
 func (e DictErr) Error() string {
@@ -36,4 +37,21 @@ func (d Dict) Add(word string, def string) error {
 	default:
 		return err
 	}
+}
+
+func (d Dict) Update(word string, def string) error {
+	_, err := d.Search(word)
+	switch err {
+	case nil:
+		d[word] = def
+		return nil
+	case ErrNotFound:
+		return ErrWordDoesNotExist
+	default:
+		return err
+	}
+}
+
+func (d Dict) Delete(word string) {
+	delete(d, word)
 }
