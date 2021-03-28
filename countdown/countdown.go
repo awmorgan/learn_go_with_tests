@@ -32,3 +32,12 @@ func Countdown(w io.Writer, s Sleeper) {
 type Sleeper interface {
 	Sleep()
 }
+
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(time.Duration)
+}
+
+func (s *ConfigurableSleeper) Sleep()  {
+	s.sleep(s.duration)
+}
