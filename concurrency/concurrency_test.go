@@ -2,12 +2,13 @@ package concurrency
 
 import (
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 )
 
 func mockWebsiteChecker(url string) bool {
-	return url != "waat://furhurterwe.geds" 
+	return url != "waat://furhurterwe.geds"
 }
 
 func TestCheckWebsites(t *testing.T) {
@@ -27,5 +28,20 @@ func TestCheckWebsites(t *testing.T) {
 
 	if !cmp.Equal(want, got) {
 		t.Fatalf("Wanted %v, got %v", want, got)
+	}
+}
+
+func slowStubWebsiteChecker(_ string) bool {
+	time.Sleep(20 *time.Millisecond)
+	return true
+}
+
+func BenchmarkCheckWebsites(b *testing.B) {
+	urls := make([]string, 100)
+	for i := 0; i < len(urls); i++ {
+		urls[i] = "a url"
+	}
+	for i := 0; i < b.N; i++ {
+		CheckWebsites(slowStubWebsiteChecker, urls)
 	}
 }
