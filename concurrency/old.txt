@@ -1,0 +1,11 @@
+goos: darwin
+goarch: amd64
+pkg: github.com/awmorgan/learn_go_with_tests/concurrency
+cpu: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz
+BenchmarkCheckWebsites-8   	       1	2281844054 ns/op
+BenchmarkCheckWebsites-8   	       1	2308537295 ns/op
+BenchmarkCheckWebsites-8   	       1	2323257279 ns/op
+BenchmarkCheckWebsites-8   	       1	2270292596 ns/op
+BenchmarkCheckWebsites-8   	       1	2304139526 ns/op
+PASS
+ok  	github.com/awmorgan/learn_go_with_tests/concurrency	12.115s
