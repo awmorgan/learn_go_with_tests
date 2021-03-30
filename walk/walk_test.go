@@ -6,7 +6,14 @@ import (
 )
 
 func TestWalk(t *testing.T) {
-
+	type Profile struct {
+		Age  int
+		City string
+	}
+	type Person struct {
+		Name    string
+		Profile Profile
+	}
 	cases := []struct {
 		Name          string
 		Input         interface{}
@@ -32,6 +39,12 @@ func TestWalk(t *testing.T) {
 				Age  int
 			}{"Bill", 51},
 			[]string{"Bill"},
+		},
+		{
+			"Nested fields",
+			Person{
+				"Bill", Profile{33, "London"}},
+			[]string{"Bill", "London"},
 		},
 	}
 
