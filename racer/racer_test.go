@@ -29,12 +29,13 @@ func TestRacer(t *testing.T) {
 		assertRacer(got, want, err, t)
 	})
 	t.Run("error after 10s", func(t *testing.T) {
-		slowServer := server(10*time.Second + 1*time.Millisecond)
-		fastServer := server(10*time.Second + 1*time.Nanosecond)
+		timeout := 10 * time.Millisecond
+		slowServer := server(timeout + 1*time.Millisecond)
+		fastServer := server(timeout + 1*time.Nanosecond)
 		defer slowServer.Close()
 		defer fastServer.Close()
 
-		_, err := Racer(fastServer.URL, slowServer.URL)
+		_, err := RacerWithTimeout(fastServer.URL, slowServer.URL, timeout)
 		if err == nil {
 			t.Error("expected error but didn't get one")
 		}

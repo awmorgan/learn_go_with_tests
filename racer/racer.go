@@ -7,12 +7,16 @@ import (
 )
 
 func Racer(a, b string) (string, error) {
+	return RacerWithTimeout(a, b, 10*time.Second)
+}
+
+func RacerWithTimeout(a, b string, timeout time.Duration) (string, error) {
 	select {
 	case <-ping(a):
 		return a, nil
 	case <-ping(b):
 		return b, nil
-	case <-time.After(10 * time.Second):
+	case <-time.After(timeout):
 		return "", errors.New("both requests timed out")
 	}
 }
