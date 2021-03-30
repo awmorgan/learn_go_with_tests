@@ -8,23 +8,45 @@ import (
 )
 
 func TestRacer(t *testing.T) {
-	slowServer := server(5*time.Millisecond)
-	fastServer := server(1*time.Millisecond)
+	t.Run("slow, fast", func(t *testing.T) {
+		slowServer := server(5 * time.Millisecond)
+		fastServer := server(1 * time.Millisecond)
+		defer slowServer.Close()
+		defer fastServer.Close()
 
-	want := fastServer.URL
-	got := Racer(slowServer.URL, fastServer.URL)
-	assertRacer(got, want, t)
-	
-	want = fastServer.URL
-	got = Racer(fastServer.URL, slowServer.URL)
-	assertRacer(got, want, t)
+		want := fastServer.URL
+		got, err := Racer(slowServer.URL, fastServer.URL)
+		assertRacer(got, want, err, t)
+	})
+	t.Run("fast, slow", func(t *testing.T) {
+		slowServer := server(5 * time.Millisecond)
+		fastServer := server(1 * time.Millisecond)
+		defer slowServer.Close()
+		defer fastServer.Close()
 
-	slowServer.Close()
-	fastServer.Close()
+		want := fastServer.URL
+		got, err := Racer(fastServer.URL, slowServer.URL)
+		assertRacer(got, want, err, t)
+	})
+	t.Run("error after 10s", func(t *testing.T) {
+		slowServer := server(10*time.Second + 1*time.Millisecond)
+		fastServer := server(10*time.Second + 1*time.Nanosecond)
+		defer slowServer.Close()
+		defer fastServer.Close()
+
+		_, err := Racer(fastServer.URL, slowServer.URL)
+		if err == nil {
+			t.Error("expected error but didn't get one")
+		}
+	})
+
 }
 
-func assertRacer(got string, want string, t testing.TB) {
+func assertRacer(got string, want string, err error, t testing.TB) {
 	t.Helper()
+	if err != nil {
+		t.Errorf("did not expect error: %v", err)
+	}
 	if got != want {
 		t.Errorf("got %q, want %q", got, want)
 	}
